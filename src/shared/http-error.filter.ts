@@ -3,27 +3,29 @@ import {
   Catch,
   ExceptionFilter,
   HttpException,
-  HttpStatus,
   Logger,
 } from '@nestjs/common';
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const request = ctx.getRequest();
-    const res = ctx.getResponse();
-    const status = exception.getStatus();
+    const [request, response] = [ctx.getRequest(), ctx.getResponse()];
+    const [status, res] = [exception.getStatus(), exception.getResponse()];
 
     const errorResponse = {
-      statusCode: status,
-      timestamp: new Date().toISOString(),
       path: request.path,
+      statusCode: exception.getStatus(),
+      message: typeof res === 'string' ? res : (res as any).message,
+      error: typeof res === 'string' ? res : (res as any).error,
+      timestamp: new Date().toISOString(),
     };
-    const dataString = JSON.stringify(errorResponse);
+
     Logger.error(
-      `${request.method} ${request.url} ${HttpStatus.NOT_FOUND} - ?ms ${dataString}`,
+      `${request.method} ${request.url} ${status} - ?ms ${JSON.stringify(
+        errorResponse,
+      )}`,
       HttpExceptionFilter.name,
     );
-    res.status(HttpStatus.NOT_FOUND).json(errorResponse);
+    response.status(status).json(errorResponse);
   }
 }

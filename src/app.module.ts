@@ -3,9 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LinksModule } from './links/links.module';
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { HttpExceptionFilter } from './shared/http-error.filter';
 import { LoggerInterceptor } from './shared/logger.interceptor';
+import { ValidationPipe } from './shared/validation.pipe';
 
 @Module({
   imports: [TypeOrmModule.forRoot(), LinksModule],
@@ -19,6 +20,10 @@ import { LoggerInterceptor } from './shared/logger.interceptor';
     {
       provide: APP_INTERCEPTOR,
       useClass: LoggerInterceptor,
+    },
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe,
     },
   ],
 })

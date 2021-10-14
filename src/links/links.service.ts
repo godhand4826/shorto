@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { decode, encode } from './codec';
@@ -19,17 +15,9 @@ export class LinksService {
 
   async create(createLinkDto: CreateLinkDto) {
     const url = createLinkDto.url;
-    try {
-      new URL(url);
-    } catch (e) {
-      throw new BadRequestException('Invalid URL');
-    }
-    const link = this.linkRepo.create({
-      url,
-      views: 0,
-    });
+    const link = this.linkRepo.create({ url, views: 0 });
     await this.linkRepo.save(link);
-    return { url: link.url, shorten: encode(link.id) };
+    return link.toDto();
   }
 
   async findAll() {

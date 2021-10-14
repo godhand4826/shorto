@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { encode } from '../codec';
 
 @Entity()
 export class Link {
@@ -26,4 +27,15 @@ export class Link {
 
   @DeleteDateColumn()
   deleteAt: Date;
+
+  toDto() {
+    return {
+      id: this.id,
+      url: this.url,
+      views: this.views,
+      createAt: this.createAt,
+      updateAt: this.updateAt,
+      shorten: encode(this.id),
+    };
+  }
 }
