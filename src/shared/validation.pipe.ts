@@ -16,7 +16,7 @@ export class ValidationPipe implements PipeTransform<any> {
     const object = plainToClass(metatype, value);
     const errors = await validate(object);
     if (errors.length > 0) {
-      throw new BadRequestException('Validation failed');
+      throw new BadRequestException(this.formatErrors(errors));
     }
     return value;
   }
@@ -26,5 +26,15 @@ export class ValidationPipe implements PipeTransform<any> {
     /* eslint-disable @typescript-eslint/ban-types */
     const types: Function[] = [String, Boolean, Number, Array, Object];
     return !types.includes(metatype);
+  }
+
+  private formatErrors(errors: any[]) {
+    return errors
+      .map(err => {
+        for (const constraint in err.constraints) {
+          return err.constraints[constraint];
+        }
+      })
+      .join(',');
   }
 }

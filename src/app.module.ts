@@ -8,9 +8,10 @@ import { HttpExceptionFilter } from './shared/http-error.filter';
 import { LoggerInterceptor } from './shared/logger.interceptor';
 import { ValidationPipe } from './shared/validation.pipe';
 import { RedirectModule } from './redirect/redirect.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), LinksModule, RedirectModule],
+  imports: [TypeOrmModule.forRoot(), LinksModule, RedirectModule, UsersModule],
   controllers: [AppController],
   providers: [
     AppService,
