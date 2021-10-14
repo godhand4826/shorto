@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  Redirect,
 } from '@nestjs/common';
 import { LinksService } from './links.service';
 import { CreateLinkDto } from './dto/create-link.dto';
@@ -24,13 +23,6 @@ export class LinksController {
   @Get()
   findAll() {
     return this.linksService.findAll();
-  }
-
-  @Get(':shorten')
-  @Redirect()
-  async redirect(@Param('shorten') shorten: string) {
-    const url = await this.linksService.findLongURL(shorten);
-    return { url, statusCode: 301 };
   }
 
   @Patch(':id')

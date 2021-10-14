@@ -7,9 +7,10 @@ import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { HttpExceptionFilter } from './shared/http-error.filter';
 import { LoggerInterceptor } from './shared/logger.interceptor';
 import { ValidationPipe } from './shared/validation.pipe';
+import { RedirectModule } from './redirect/redirect.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), LinksModule],
+  imports: [TypeOrmModule.forRoot(), LinksModule, RedirectModule],
   controllers: [AppController],
   providers: [
     AppService,
