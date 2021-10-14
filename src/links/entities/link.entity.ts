@@ -6,7 +6,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { encode } from '../codec';
+import { map } from 'auto-mapping';
+import { LinkDto } from '../dto/link.dto';
 
 @Entity()
 export class Link {
@@ -29,13 +30,6 @@ export class Link {
   deleteAt: Date;
 
   toDto() {
-    return {
-      id: this.id,
-      url: this.url,
-      views: this.views,
-      createAt: this.createAt,
-      updateAt: this.updateAt,
-      shorten: encode(this.id),
-    };
+    return map(this, LinkDto);
   }
 }

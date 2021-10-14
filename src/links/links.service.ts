@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { decode, encode } from './codec';
+import { decode } from './codec';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { UpdateLinkDto } from './dto/update-link.dto';
 import { Link } from './entities/link.entity';
@@ -10,23 +10,20 @@ import { Link } from './entities/link.entity';
 export class LinksService {
   constructor(
     @InjectRepository(Link)
-    private readonly linkRepo: Repository<Link>,
+    private linkRepo: Repository<Link>,
   ) {}
 
   async create(createLinkDto: CreateLinkDto) {
     const url = createLinkDto.url;
     const link = this.linkRepo.create({ url, views: 0 });
     await this.linkRepo.save(link);
+
     return link.toDto();
   }
 
   async findAll() {
     const links = await this.linkRepo.find();
-    return links.map(link => ({
-      url: link.url,
-      views: link.views,
-      shorten: encode(link.id),
-    }));
+    return links.map(link => link.toDto());
   }
 
   async findLongURL(shorten: string) {
