@@ -39,4 +39,8 @@ export class User {
   toDto() {
     return map(this, UserDto);
   }
+
+  async comparePassword(password: string) {
+    return bcrypt.compare(password, this.password);
+  }
 }

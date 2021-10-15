@@ -12,4 +12,6 @@ export class UserDto {
 
   @mapping()
   updateAt: Date;
+
+  token?: string;
 }
