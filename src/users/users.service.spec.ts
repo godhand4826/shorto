@@ -3,7 +3,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
-import { VerifyUserDto } from './dto/verify-user.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 
@@ -48,8 +47,6 @@ describe('UsersService', () => {
 
     expect(user.account).toEqual(newUser.account);
     expect((user as any).password).toBeUndefined();
-    expect(user.token).toBeDefined();
-    expect(user.token.length).not.toBe(0);
   });
 
   it('register conflict', async () => {
@@ -58,23 +55,5 @@ describe('UsersService', () => {
     const newUser: CreateUserDto = { account: 'eric', password: 'pass' };
 
     await expect(service.register(newUser)).rejects.toThrow(ConflictException);
-  });
-
-  it('login', async () => {
-    const user = new User();
-    user.account = 'eric';
-    user.password = 'pass';
-    jest.spyOn(repo, 'findOne').mockImplementation(async () => user);
-    jest.spyOn(user, 'comparePassword').mockImplementation(async function (p) {
-      return p == this.password;
-    });
-
-    const claim: VerifyUserDto = { account: 'eric', password: 'pass' };
-    const u = await service.login(claim);
-
-    expect(u.account).toEqual(user.account);
-    expect((u as any).password).toBeUndefined();
-    expect(u.token).toBeDefined();
-    expect(u.token.length).not.toBe(0);
   });
 });

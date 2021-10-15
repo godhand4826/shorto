@@ -9,9 +9,16 @@ import { LoggerInterceptor } from './shared/logger.interceptor';
 import { ValidationPipe } from './shared/validation.pipe';
 import { RedirectModule } from './redirect/redirect.module';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), LinksModule, RedirectModule, UsersModule],
+  imports: [
+    TypeOrmModule.forRoot(),
+    LinksModule,
+    RedirectModule,
+    UsersModule,
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,
