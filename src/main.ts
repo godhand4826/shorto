@@ -9,6 +9,7 @@ async function bootstrap() {
     .setTitle('shorto')
     .setDescription('The shorto API description')
     .setVersion('1.0')
+    .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' })
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/', app, document);
