@@ -1,5 +1,5 @@
 import { mapping } from 'auto-mapping';
-import { Link } from '../entities/link.entity';
+import { Link } from '../link.entity';
 import { encode } from '../codec';
 
 export class LinkDto {

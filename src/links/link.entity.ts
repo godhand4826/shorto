@@ -7,12 +7,15 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { map } from 'auto-mapping';
-import { LinkDto } from '../dto/link.dto';
+import { LinkDto } from './dto/link.dto';
 
 @Entity()
 export class Link {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column()
+  userID: number;
 
   @Column()
   url: string;

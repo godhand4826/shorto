@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Link } from './entities/link.entity';
+import { Link } from './link.entity';
 import { LinksController } from './links.controller';
 import { LinksService } from './links.service';
 

@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { map } from 'auto-mapping';
-import { UserDto } from '../dto/user.dto';
+import { UserDto } from './dto/user.dto';
 
 @Entity()
 export class User {
